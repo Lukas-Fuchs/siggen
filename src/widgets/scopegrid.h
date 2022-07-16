@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widget.h"
 
 #include <vector>
@@ -10,5 +12,5 @@ struct ScopeGrid : public Widget
     float y_lower = 0;
     float y_upper = 1;
 
-    void paint() const override;
+    void paint() const;
 };

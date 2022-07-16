@@ -1,15 +1,16 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 #include "display_context.h"
 #include "widgets/widget.h"
+#include "widgets/scopegrid.h"
 #include "imgui.h"
 
-std::vector<Widget> widgets;
+std::vector<Widget*> widgets;
 
 int main()
 {
-
     DisplayContext display_ctx;
     if (auto maybe_ctx = setup_display(); maybe_ctx)
     {
@@ -25,6 +26,13 @@ int main()
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     bool showdemo = true;
 
+    ScopeGrid scope;
+    widgets.emplace_back(&scope);
+    widgets[0]->title = "test";
+
+    unsigned char it_cnt = 0;
+    float y = 0;
+
     while (!glfwWindowShouldClose(display_ctx.window))
     {
         glfwPollEvents();
@@ -35,9 +43,18 @@ int main()
 
         ImGui::ShowDemoWindow(&showdemo);
 
+
+        if(it_cnt++ % 16 == 0){
+            scope.ys.emplace_back(std::sin(y++));
+        }
+
         for (const auto &w : widgets)
         {
-            w.paint();
+            if(w && w->show){
+                ImGui::Begin(w->title.c_str());
+                w->paint();
+                ImGui::End();
+            }
         }
 
         // Rendering

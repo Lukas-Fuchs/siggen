@@ -29,7 +29,9 @@ add_dependencies(siggen IMGUI)
 
 target_sources(siggen
     PUBLIC
-        src/display_context.cpp)
+        src/display_context.cpp
+        src/widgets/imgui_plot.cpp
+        src/widgets/scopegrid.cpp)
 
 find_package(glfw3 3.3 REQUIRED)
 target_link_libraries(siggen PUBLIC glfw)
