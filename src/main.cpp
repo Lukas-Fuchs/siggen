@@ -5,9 +5,11 @@
 #include "display_context.h"
 #include "widgets/widget.h"
 #include "widgets/scopegrid.h"
+#include "widgets/generator_widget.h"
+#include "widgets/module_table.h"
 #include "imgui.h"
 
-std::vector<Widget*> widgets;
+std::vector<Widget *> widgets;
 
 int main()
 {
@@ -21,14 +23,16 @@ int main()
         std::cerr << "Display setup failed" << std::endl;
         return 1;
     }
-    std::cout << "display setup finished" << std::endl;
 
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     bool showdemo = true;
 
-    ScopeGrid scope;
+    ScopeGrid scope(500, 200);
+    scope.setData({1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89});
     widgets.emplace_back(&scope);
     widgets[0]->title = "test";
+    widgets.emplace_back(new GeneratorWidget());
+    widgets.emplace_back(new ModuleTable());
 
     unsigned char it_cnt = 0;
     float y = 0;
@@ -43,14 +47,11 @@ int main()
 
         ImGui::ShowDemoWindow(&showdemo);
 
-
-        if(it_cnt++ % 16 == 0){
-            scope.ys.emplace_back(std::sin(y++));
-        }
-
         for (const auto &w : widgets)
         {
-            if(w && w->show){
+            if (w && w->show)
+            {
+                ImGui::SetNextWindowSize(ImVec2(w->w, w->h));
                 ImGui::Begin(w->title.c_str());
                 w->paint();
                 ImGui::End();
@@ -72,6 +73,7 @@ int main()
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
+    ImNodes::DestroyContext();
     ImGui::DestroyContext();
 
     glfwDestroyWindow(display_ctx.window);

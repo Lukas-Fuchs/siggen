@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 20)
+#set(CMAKE_CXX_STANDARD_REQUIRED ON)
+#set(CMAKE_CXX_COMPILER g++-10)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a")
+
 
 project(siggen)
 
-get_test_property(${PROJECT_NAME} WORKING_DIRECTORY test_dir)
-message("My test's working directory: ${test_dir}")
+message("Siggen's working directory: ${PROJECT_SOURCE_DIR}")
 
 add_library(IMGUI STATIC)
 target_sources(IMGUI
@@ -31,12 +33,18 @@ target_sources(siggen
     PUBLIC
         src/display_context.cpp
         src/widgets/imgui_plot.cpp
-        src/widgets/scopegrid.cpp)
+        src/widgets/scopegrid.cpp
+        src/widgets/generator_widget.cpp
+        src/widgets/module_table.cpp
+        src/modules/module_manager.cpp
+        imnodes/imnodes.cpp)
 
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+target_link_libraries(siggen PUBLIC Eigen3::Eigen)
 find_package(glfw3 3.3 REQUIRED)
 target_link_libraries(siggen PUBLIC glfw)
 set(OPENGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 target_link_libraries(siggen PUBLIC OpenGL::GL)
-target_link_libraries(siggen PUBLIC IMGUI)
-target_include_directories(siggen PUBLIC src widgets imgui)
+target_link_libraries(siggen PUBLIC IMGUI ${CMAKE_DL_LIBS})
+target_include_directories(siggen PUBLIC src eigen imgui imnodes)

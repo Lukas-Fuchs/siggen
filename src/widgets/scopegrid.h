@@ -1,16 +1,20 @@
 #pragma once
 
 #include "widget.h"
+#include "imgui_plot.h"
 
 #include <vector>
 
 struct ScopeGrid : public Widget
 {
     std::vector<float> ys;
-    float x_lower = 0;
-    float x_upper = 1;
-    float y_lower = 0;
-    float y_upper = 1;
 
-    void paint() const;
+    ImGui::PlotConfig cfg;
+
+    ScopeGrid() { ScopeGrid(1000, 500); }
+    ScopeGrid(float w, float h);
+    void setScale(float lower, float upper);
+    void setData(std::vector<float> data);
+
+    void paint() const override;
 };

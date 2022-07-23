@@ -38,6 +38,7 @@ std::optional<DisplayContext> setup_display()
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImNodes::CreateContext();
 
     // ImGuiIO &io = ImGui::GetIO();
 
