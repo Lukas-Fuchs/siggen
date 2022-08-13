@@ -2,11 +2,12 @@
 
 #include <string>
 
-struct Widget
-{
-    std::string title = "";
-    bool show = true;
-    float x, y, w, h;
+#include "global.h"
 
-    virtual void paint() const{}
+struct Widget {
+  std::string title = "";
+  bool show = true;
+  float x, y, w, h;
+
+  virtual void paint() const {}
 };
