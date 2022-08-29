@@ -20,6 +20,5 @@ void SignalGenerator::paint() const {
 
 void SignalGenerator::calculate() {
   double t = double(global::get_time()) / 1'000'000;
-  outputs[0].put(Eigen::Matrix<std::complex<double>, 1, 1>{
-      {amplitude * std::sin(sin_frequency * (t + sin_phase) * M_PI_2), 0.0f}});
+  outputs[0].put({{amplitude * std::sin(sin_frequency * (t + sin_phase) * M_PI_2), 0.0f}});
 }

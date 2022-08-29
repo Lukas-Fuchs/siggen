@@ -1,24 +1,28 @@
 #ifndef MODULE_INCLUDED
 #define MODULE_INCLUDED
 
-#include <Eigen/Dense>
 #include <string>
 
+#include "def.h"
 #include "global.h"
 #include "imgui.h"
 
+#include <vector>
 #include <iostream>
+#include <tuple>
 
 struct Port {
-  void put(Eigen::MatrixXcd input) { state = input; }
-  Eigen::MatrixXcd get() { return state; }
+  void put(const std::vector<complex>& input) { state = input; }
+  const std::vector<complex>& get() { return state; }
 
-  std::tuple<size_t, size_t> getDims() { return {state.rows(), state.cols()}; }
+  std::tuple<size_t, size_t> getDims() { return {rows, cols}; }
 
   Port(std::string name, size_t rows, size_t cols) {
     id = global::getNextID();
     this->name = name;
-    state = Eigen::MatrixXcd(rows, cols);
+    this->rows = rows;
+    this->cols = cols;
+    state = std::vector<complex>(rows * cols);
   }
 
   size_t id;
@@ -28,7 +32,8 @@ struct Port {
   mutable bool visible = true;
 
 private:
-  Eigen::MatrixXcd state;
+  std::vector<complex> state;
+  size_t rows, cols;
 };
 
 struct Module {

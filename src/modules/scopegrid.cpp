@@ -1,7 +1,6 @@
 #include "scopegrid.h"
 #include "imgui.h"
 
-#include <Eigen/src/Core/Matrix.h>
 #include <iostream>
 #include <math.h>
 
@@ -48,11 +47,10 @@ void ScopeGrid::paint() const {
 
 void ScopeGrid::calculate() {
   auto in_cont = inputs[input_idx_cont].get();
-  ys.put(in_cont(0, 0).real());
+  ys.put(in_cont[0].real());
 
   static float y = 0;
-  outputs[output_idx_cont].put(
-      Eigen::Matrix<std::complex<double>, 1, 1>{{ys.back(), 0.0f}});
+  outputs[output_idx_cont].put({{ys.back(), 0.0f}});
 
   outputs[output_idx_bulk].put(inputs[input_idx_bulk].get());
 }
