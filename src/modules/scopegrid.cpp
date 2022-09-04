@@ -56,7 +56,12 @@ void ScopeGrid::paint() const {
 
 void ScopeGrid::calculate() {
   auto in_cont = inputs[input_idx_cont].get();
-  ys.put(in_cont[0].real());
+  std::vector<float> real;
+  real.reserve(in_cont.size());
+  for(const auto& c : in_cont){
+    real.emplace_back(c.real());
+  }
+  ys.put(real);
 
   static float y = 0;
   outputs[output_idx_cont].put({{ys.back(), 0.0f}});

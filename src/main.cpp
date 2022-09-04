@@ -51,6 +51,8 @@ int main() {
   unsigned char it_cnt = 0;
   float y = 0;
 
+  global::get_initial_time();
+
   while (!glfwWindowShouldClose(display_ctx.window)) {
     glfwPollEvents();
 

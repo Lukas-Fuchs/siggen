@@ -6,9 +6,7 @@
 
 namespace global {
 
-double fps = 100.0;
-
-uint64_t prev_time;
+inline double fps = 1000.0;
 
 inline std::chrono::time_point<std::chrono::steady_clock> current_time;
 
@@ -36,10 +34,6 @@ inline uint64_t get_time() {
              current_time - get_initial_time())
       .count();
 }
-
-inline uint64_t get_time_delta() { return get_time() - prev_time; }
-
-inline double get_frame_delta() { return; };
 
 } // namespace global
 

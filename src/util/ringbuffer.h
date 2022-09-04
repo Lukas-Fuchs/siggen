@@ -17,6 +17,14 @@ template <typename T> struct Ringbuffer {
     current_idx %= data_vector.size();
   }
 
+  void put(std::vector<T> v){
+    for(size_t i = current_idx; i < v.size(); ++i){
+      data_vector[i % data_vector.size()] = v[i]; 
+    }
+    current_idx += v.size();
+    current_idx %= data_vector.size();
+  }
+
   const T get() const { return data_vector[current_idx]; }
   const T back() const {
     return data_vector[(current_idx - 1) % data_vector.size()];
