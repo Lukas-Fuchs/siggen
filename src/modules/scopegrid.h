@@ -8,7 +8,7 @@
 #include <imgui_plot.h>
 
 struct ScopeGrid : public Module {
-  Ringbuffer<float> ys{100};
+  mutable Ringbuffer<float> ys{100};
 
   ScopeGrid();
 

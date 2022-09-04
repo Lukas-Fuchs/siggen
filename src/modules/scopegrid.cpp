@@ -44,10 +44,13 @@ void ScopeGrid::paint() const {
 
   cfg.values.ys = ys.data();
   cfg.frame_size = ImVec2(150, 100);
-  //ImGui::Plot("", cfg);
+  // ImGui::Plot("", cfg);
 
   ImGui::GraphSettings settings;
   settings.dimensions = {250, 100};
+  settings.max_y = 2.0f;
+  settings.min_y = -2.0f;
+  settings.offset = ys.offset();
   Graph(settings, {ys.begin(), ys.size()});
 }
 
