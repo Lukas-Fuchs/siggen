@@ -1,4 +1,6 @@
 #include <vector>
+#include <stddef.h>
+#include <iterator>
 
 template <typename T> struct Ringbuffer {
   Ringbuffer(size_t size) { resize(size); }
@@ -18,6 +20,10 @@ template <typename T> struct Ringbuffer {
   const T get() const { return data_vector[current_idx]; }
   const T back() const {
     return data_vector[(current_idx - 1) % data_vector.size()];
+  }
+
+  const std::vector<T>::iterator begin(){
+    return data_vector.begin();
   }
 
   const T *data() const { return data_vector.data(); }

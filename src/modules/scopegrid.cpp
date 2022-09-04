@@ -1,6 +1,8 @@
 #include "scopegrid.h"
 #include "imgui.h"
 
+#include "imgraph.h"
+
 #include <iostream>
 #include <math.h>
 
@@ -42,7 +44,11 @@ void ScopeGrid::paint() const {
 
   cfg.values.ys = ys.data();
   cfg.frame_size = ImVec2(150, 100);
-  ImGui::Plot("", cfg);
+  //ImGui::Plot("", cfg);
+
+  ImGui::GraphSettings settings;
+  settings.dimensions = {250, 100};
+  Graph(settings, {ys.begin(), ys.size()});
 }
 
 void ScopeGrid::calculate() {
